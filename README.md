@@ -17,4 +17,5 @@ Automated end-to-end (E2E) quality assurance suite demonstrating UI validation a
 ```bash
 pip install -r requirements.txt
 playwright install chromium
+playwright install-deps chromium
 pytest -v
