@@ -2,19 +2,19 @@ import pytest
 from playwright.sync_api import sync_playwright, expect
 
 
-def test_web_ui_navigation():
-    """Validates page title, main heading, and navigation link on example.com."""
+def test_web_ui_login_flow():
+    """Validates positive user authentication flow on a QA practice web application."""
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
-        page.goto("https://example.com")
+        page.goto("https://the-internet.herokuapp.com/login")
 
-        expect(page).to_have_title("Example Domain")
-        heading = page.locator("h1")
-        expect(heading).to_have_text("Example Domain")
+        page.fill("#username", "tomsmith")
+        page.fill("#password", "SuperSecretPassword!")
+        page.click("button[type='submit']")
 
-        more_info_link = page.locator("a")
-        expect(more_info_link).to_be_visible()
+        flash_message = page.locator("#flash")
+        expect(flash_message).to_contain_text("You logged into a secure area!")
         browser.close()
 
 
